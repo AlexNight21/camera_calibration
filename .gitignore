@@ -1,3 +1,8 @@
+# ignore data
+data/*.jpg
+data/*.jpeg
+data/*.png
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
