@@ -1,7 +1,11 @@
 # ignore data
-data/*.jpg
-data/*.jpeg
-data/*.png
+data/calibr_dataset/*.jpg
+data/calibr_dataset/*.jpeg
+data/calibr_dataset/*.png
+
+data/result_imgs/*.jpg
+data/result_imgs/*.jpeg
+data/result_imgs/*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
