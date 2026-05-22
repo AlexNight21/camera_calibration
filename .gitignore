@@ -7,6 +7,9 @@ data/result_imgs/*.jpg
 data/result_imgs/*.jpeg
 data/result_imgs/*.png
 
+# ignore folders
+# notebooks/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]

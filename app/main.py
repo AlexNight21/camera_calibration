@@ -8,6 +8,7 @@ from pathlib import Path
 # params
 boardSize = (9, 6)
 frSize = (1600, 1200)
+cell_size = 22   # chessboard cell size in mm
 
 criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 30, 0.001)
 
@@ -17,7 +18,7 @@ result_path = os.path.join(Path(__file__).parents[1], "data/result_imgs")
 calibr_file = os.path.join(Path(__file__).parents[1], "data/calibration.pckl")
 
 # test
-test_img_name = "WIN_20260519_15_10_43_Pro.jpg"
+test_img_name = "WIN_20260520_12_14_24_Pro.jpg"
 
 
 def save_calibration_results(calibr_file, mtx, opt_mtx, dist):
@@ -80,12 +81,12 @@ def show_corners(image, board_size, corners, ret):
 def make_cam_calibration(
     imgs_path, 
     board_size, 
-    frame_size, 
+    frame_size,
+    cell_size,
     criteria, 
     calibr_file,
-    show_corners=False,
+    show_corners_flag=False,
     save_calibr_data=True,
-    save_example=True,
 ):
     
     objPoints = []    # 3D points  
@@ -93,6 +94,8 @@ def make_cam_calibration(
     
     objp = np.zeros((1, board_size[0] * board_size[1], 3), np.float32)
     objp[0,:,:2] = np.mgrid[0:board_size[0], 0:board_size[1]].T.reshape(-1, 2)
+    
+    objp *= cell_size    # scale to real world units (mm)
     
     for img_name in os.listdir(imgs_path):
         if not img_name.endswith((".jpg", ".png", ".jpeg")):
@@ -123,7 +126,7 @@ def make_cam_calibration(
             
             imgPoints.append(corners2)
             
-            if show_corners:
+            if show_corners_flag:
                 show_corners(
                     image=image, 
                     board_size=board_size, 
@@ -163,16 +166,16 @@ def make_cam_calibration(
         )
 
 if __name__ == "__main__":
-    # make_cam_calibration(
-    #     imgs_path=imgs_path,
-    #     board_size=boardSize, 
-    #     frame_size=frSize, 
-    #     criteria=criteria,
-    #     calibr_file=calibr_file,
-    #     show_corners=False,
-    #     save_calibr_data=True,
-    #     save_example=True,
-    # )
+    make_cam_calibration(
+        imgs_path=imgs_path,
+        board_size=boardSize, 
+        frame_size=frSize,
+        cell_size=cell_size, 
+        criteria=criteria,
+        calibr_file=calibr_file,
+        show_corners_flag=True,
+        save_calibr_data=True,
+    )
     
     save_undistorted_imgs(
         imgs_path=imgs_path,
